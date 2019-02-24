@@ -25,3 +25,27 @@ ExecStart=/usr/sbin/node_exporter $OPTIONS
 [Install]
 WantedBy=multi-user.target
 ```
+sudo mkdir -p /etc/sysconfig
+
+sudo touch /etc/sysconfig/node_exporter
+
+OPTIONS="--collector.textfile.directory /var/lib/node_exporter/textfile_collector"
+
+> To check all available options
+
+/usr/sbin/node_exporter --help
+
+sudo systemctl daemon-reload
+
+sudo systemctl enable node_exporter
+
+ sudo systemctl start node_exporter
+ 
+ curl http://localhost:9100/metrics
+ 
+ > Add to prometheus.yml
+ ```
+ - job_name: 'node'
+    static_configs:
+      - targets: ['$NODE_IP:9100']
+ ```
